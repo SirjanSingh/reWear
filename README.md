@@ -166,16 +166,6 @@ All endpoints are live and thoroughly tested. Full Swagger docs live in [`backen
 
 ---
 
-## Screenshots & Demos
-
-*Add GIFs or images once the UI stabilises.*
-
-| Login / Sign‑up |  Landing / Home |
-| :-------------: | :-------------: |
-| *(placeholder)* | *(placeholder)* |
-
----
-
 ## Roadmap
 
 * [ ] Real‑time Socket.IO notifications.
@@ -197,11 +187,18 @@ All endpoints are live and thoroughly tested. Full Swagger docs live in [`backen
 
 ## Team
 
-| Role      | Members         |
-| --------- | --------------- |
-| Front‑end | Sirjan · Kartik |
-| Back‑end  | Param · Ali     |
-| UI/UX     | Kartik · Sirjan |
+<details>
+<summary><strong>📬 Team Contacts</strong></summary>
+
+| Role      | Member | Email                                                             |
+| --------- | ------ | ----------------------------------------------------------------- |
+| Front‑end | Sirjan | [sirjan.singh036@gmail.com](mailto:sirjan.singh036@gmail.com)     |
+| Front‑end | Kartik | [kartikawasthi2022@gmail.com](mailto:kartikawasthi2022@gmail.com) |
+| Back‑end  | Param  | [paramveer5404@gmail.com](mailto:paramveer5404@gmail.com)         |
+| Back‑end  | Ali    | [lycanalan@gmail.com](mailto:lycanalan@gmail.com)                 |
+
+</details>
+
 
 ---
 
@@ -211,4 +208,4 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for details.
 
 ---
 
-> Made with by the ReWear Community – *reduce, reuse, **re‑wear***!
+> Made with love by the ReWear Community – *reduce, reuse, **re‑wear***!
