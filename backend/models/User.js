@@ -10,40 +10,14 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: function() {
-      // Password is required if not using social login
-      return !this.socialProvider;
-    },
+    required: true,
     minlength: 6,
-  },
-  points: {
-    type: Number,
-    default: 0,
-    min: 0,
-  },
-  isAdmin: {
-    type: Boolean,
-    default: false,
-  },
-  socialProvider: {
-    type: String, // e.g., 'google', 'facebook', etc.
-    default: null,
-  },
-  socialProviderId: {
-    type: String,
-    default: null,
   },
   name: {
     type: String,
+    required: true,
     trim: true,
   },
-  avatarUrl: {
-    type: String,
-  },
-}, {
-  timestamps: true,
-});
-
-userSchema.index({ email: 1 });
+}, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema); 

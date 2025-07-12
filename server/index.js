@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
-const User = require('../backend/models/User');
+const authRoutes = require('../backend/routes/auth');
 
 const app = express();
 app.use(cors());
@@ -22,6 +22,8 @@ mongoose.connect(MONGO_URI, {
 app.get('/api/test', (req, res) => {
   res.json({ message: 'API is working!' });
 });
+
+app.use('/api/auth', authRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;
