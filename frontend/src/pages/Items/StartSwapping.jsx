@@ -1,59 +1,59 @@
 import { ArrowLeft, Heart, Star, Clock, Award } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { itemService } from "../../services/itemService";
 
 export default function StartSwapping() {
   const navigate = useNavigate();
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const swapItems = [
-    {
-      id: 1,
-      title: "Vintage Levi's Denim Jacket",
-      description: "Classic blue denim jacket from the 90s, perfect condition",
-      size: "M",
-      condition: "Excellent",
-      points: 500,
-      exchangeTime: "2-3 days",
-      likes: 24,
-      rating: 4.8,
-      image: "https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?w=300"
-    },
-    {
-      id: 2,
-      title: "Gucci Silk Scarf",
-      description: "Authentic Gucci scarf with floral pattern",
-      size: "One Size",
-      condition: "Like New",
-      points: 800,
-      exchangeTime: "1-2 days",
-      likes: 18,
-      rating: 4.9,
-      image: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=300"
-    },
-    {
-      id: 3,
-      title: "Cashmere Sweater",
-      description: "Pure cashmere sweater in navy blue",
-      size: "L",
-      condition: "Good",
-      points: 600,
-      exchangeTime: "2-4 days",
-      likes: 31,
-      rating: 4.7,
-      image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=300"
-    },
-    {
-      id: 4,
-      title: "Nike Air Max",
-      description: "Limited edition sneakers, barely worn",
-      size: "9",
-      condition: "Very Good",
-      points: 700,
-      exchangeTime: "3-4 days",
-      likes: 42,
-      rating: 4.6,
-      image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300"
-    },
-  ];
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        setLoading(true);
+        const response = await itemService.getItems();
+        setItems(response.items);
+        setError(null);
+      } catch (err) {
+        setError('Failed to fetch items. Please try again later.');
+        console.error('Error fetching items:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchItems();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto"></div>
+          <p className="mt-4 text-slate-600">Loading available items...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-red-500 text-xl mb-4">⚠️</div>
+          <p className="text-slate-600">{error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="mt-4 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
@@ -113,11 +113,11 @@ export default function StartSwapping() {
 
           {/* Items Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {swapItems.map((item) => (
-              <div key={item.id} className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden w-full">
+            {items.map((item) => (
+              <div key={item._id} className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden w-full">
                 <div className="relative">
                   <img
-                    src={item.image}
+                    src={item.images[0]}
                     alt={item.title}
                     className="w-full aspect-square object-cover"
                   />
@@ -142,7 +142,7 @@ export default function StartSwapping() {
                     </span>
                     <span className="text-base text-slate-600 bg-slate-50 px-3 py-1.5 rounded-full flex items-center">
                       <Clock className="h-4 w-4 mr-1.5" />
-                      {item.exchangeTime}
+                      2-3 days
                     </span>
                   </div>
                   <div className="flex items-center justify-between">

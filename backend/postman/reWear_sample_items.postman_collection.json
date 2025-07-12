@@ -1,0 +1,124 @@
+{
+  "info": {
+    "_postman_id": "sample-items-collection",
+    "name": "ReWear Sample Items",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Add Sample Items",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/api/items/batch",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "items", "batch"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": {
+            "items": [
+              {
+                "title": "Vintage Denim Jacket",
+                "description": "Classic vintage denim jacket in excellent condition",
+                "category": "Men",
+                "type": "Jacket",
+                "size": "M",
+                "condition": "Excellent",
+                "likes": 24,
+                "rating": 4.8,
+                "points": 75,
+                "images": ["https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&h=500&fit=crop"],
+                "tags": ["vintage", "denim", "jacket", "men"]
+              },
+              {
+                "title": "Designer Silk Scarf",
+                "description": "Beautiful designer silk scarf in like new condition",
+                "category": "Women",
+                "type": "Accessory",
+                "size": "One Size",
+                "condition": "Like New",
+                "likes": 18,
+                "rating": 4.9,
+                "points": 45,
+                "images": ["https://images.unsplash.com/photo-1550639525-c97d455acf70?w=500&h=500&fit=crop"],
+                "tags": ["designer", "silk", "scarf", "women"]
+              },
+              {
+                "title": "Cozy Wool Sweater",
+                "description": "Warm and comfortable wool sweater",
+                "category": "Unisex",
+                "type": "Sweater",
+                "size": "L",
+                "condition": "Good",
+                "likes": 31,
+                "rating": 4.7,
+                "points": 60,
+                "images": ["https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=500&h=500&fit=crop"],
+                "tags": ["wool", "sweater", "cozy", "unisex"]
+              },
+              {
+                "title": "Classic White Sneakers",
+                "description": "Timeless white sneakers in very good condition",
+                "category": "Unisex",
+                "type": "Shoes",
+                "size": "9",
+                "condition": "Very Good",
+                "likes": 42,
+                "rating": 4.6,
+                "points": 80,
+                "images": ["https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=500&h=500&fit=crop"],
+                "tags": ["sneakers", "shoes", "white", "unisex"]
+              },
+              {
+                "title": "Floral Summer Dress",
+                "description": "Beautiful floral summer dress perfect for any occasion",
+                "category": "Women",
+                "type": "Dress",
+                "size": "S",
+                "condition": "Excellent",
+                "likes": 27,
+                "rating": 4.8,
+                "points": 70,
+                "images": ["https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=500&h=500&fit=crop"],
+                "tags": ["dress", "floral", "summer", "women"]
+              },
+              {
+                "title": "Leather Crossbody Bag",
+                "description": "Stylish leather crossbody bag in like new condition",
+                "category": "Women",
+                "type": "Bag",
+                "size": "One Size",
+                "condition": "Like New",
+                "likes": 35,
+                "rating": 4.9,
+                "points": 85,
+                "images": ["https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&h=500&fit=crop"],
+                "tags": ["leather", "bag", "crossbody", "women"]
+              },
+              {
+                "title": "Retro Sunglasses",
+                "description": "Cool retro sunglasses in excellent condition",
+                "category": "Unisex",
+                "type": "Accessory",
+                "size": "One Size",
+                "condition": "Excellent",
+                "likes": 19,
+                "rating": 4.7,
+                "points": 40,
+                "images": ["https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&h=500&fit=crop"],
+                "tags": ["sunglasses", "retro", "accessory", "unisex"]
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+} 

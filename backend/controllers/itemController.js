@@ -14,6 +14,34 @@ exports.createItem = async (req, res) => {
     }
 };
 
+// Batch create items (admin only)
+exports.batchCreateItems = async (req, res) => {
+    try {
+        // Ensure user is admin
+        if (!req.user.isAdmin) {
+            return res.status(403).json({ message: 'Admin access required' });
+        }
+
+        const { items } = req.body;
+        if (!Array.isArray(items)) {
+            return res.status(400).json({ message: 'Items must be an array' });
+        }
+
+        // Add uploader (admin) to each item
+        const itemsWithUploader = items.map(item => ({
+            ...item,
+            uploader: req.user._id,
+            approved: true // Auto-approve admin uploads
+        }));
+
+        // Insert all items
+        const createdItems = await Item.insertMany(itemsWithUploader);
+        res.status(201).json(createdItems);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 // Get all approved items with filters
 exports.getItems = async (req, res) => {
     try {

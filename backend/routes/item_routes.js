@@ -16,5 +16,6 @@ router.delete('/:id', isAuth, itemController.deleteItem);
 router.get('/admin/pending', isAuth, isAdmin, itemController.getPendingItems);
 router.put('/admin/:id/approve', isAuth, isAdmin, itemController.approveItem);
 router.put('/admin/:id/feature', isAuth, isAdmin, itemController.toggleFeatured);
+router.post('/batch', isAuth, isAdmin, itemController.batchCreateItems);
 
 module.exports = router; 

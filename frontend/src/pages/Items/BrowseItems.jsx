@@ -1,81 +1,59 @@
 import { Heart, Star, Recycle } from "lucide-react"
 import { useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { itemService } from "../../services/itemService"
 
 export default function BrowseItems() {
   const navigate = useNavigate();
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const items = [
-    {
-      id: 1,
-      title: "Vintage Denim Jacket",
-      size: "M",
-      condition: "Excellent",
-      likes: 24,
-      rating: 4.8,
-      points: 75,
-      image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&h=500&fit=crop"
-    },
-    {
-      id: 2,
-      title: "Designer Silk Scarf",
-      size: "One Size",
-      condition: "Like New",
-      likes: 18,
-      rating: 4.9,
-      points: 45,
-      image: "https://images.unsplash.com/photo-1550639525-c97d455acf70?w=500&h=500&fit=crop"
-    },
-    {
-      id: 3,
-      title: "Cozy Wool Sweater",
-      size: "L",
-      condition: "Good",
-      likes: 31,
-      rating: 4.7,
-      points: 60,
-      image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=500&h=500&fit=crop"
-    },
-    {
-      id: 4,
-      title: "Classic White Sneakers",
-      size: "9",
-      condition: "Very Good",
-      likes: 42,
-      rating: 4.6,
-      points: 80,
-      image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=500&h=500&fit=crop"
-    },
-    {
-      id: 5,
-      title: "Floral Summer Dress",
-      size: "S",
-      condition: "Excellent",
-      likes: 27,
-      rating: 4.8,
-      points: 70,
-      image: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=500&h=500&fit=crop"
-    },
-    {
-      id: 6,
-      title: "Leather Crossbody Bag",
-      size: "One Size",
-      condition: "Like New",
-      likes: 35,
-      rating: 4.9,
-      points: 85,
-      image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&h=500&fit=crop"
-    },
-    {
-      id: 7,
-      title: "Retro Sunglasses",
-      size: "One Size",
-      condition: "Excellent",
-      likes: 19,
-      rating: 4.7,
-      points: 40,
-      image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&h=500&fit=crop"
-    }
-  ];
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        setLoading(true);
+        const response = await itemService.getItems();
+        setItems(response.items);
+        setError(null);
+      } catch (err) {
+        setError('Failed to fetch items. Please try again later.');
+        console.error('Error fetching items:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchItems();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto"></div>
+          <p className="mt-4 text-slate-600">Loading items...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-red-500 text-xl mb-4">⚠️</div>
+          <p className="text-slate-600">{error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="mt-4 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
@@ -109,10 +87,10 @@ export default function BrowseItems() {
         {/* Items Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {items.map((item) => (
-            <div key={item.id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
+            <div key={item._id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
               <div className="relative">
                 <img
-                  src={item.image}
+                  src={item.images[0]}
                   alt={item.title}
                   className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
