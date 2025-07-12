@@ -1,11 +1,20 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+function generateToken(user) {
+  return jwt.sign(
+    { id: user._id, email: user.email, isAdmin: user.isAdmin },
+    process.env.JWT_SECRET,
+    { expiresIn: '7d' }
+  );
+}
 
 exports.register = async (req, res) => {
   try {
-    const { email, password, name } = req.body;
+    const { email, password, name, avatarUrl } = req.body;
     if (!email || !password || !name) {
-      return res.status(400).json({ message: 'All fields are required.' });
+      return res.status(400).json({ message: 'Email, password, and name are required.' });
     }
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -16,9 +25,11 @@ exports.register = async (req, res) => {
       email,
       password: hashedPassword,
       name,
+      avatarUrl,
     });
     await user.save();
-    res.status(201).json({ message: 'User registered successfully.' });
+    const token = generateToken(user);
+    res.status(201).json({ token, user: { id: user._id, email: user.email, name: user.name, avatarUrl: user.avatarUrl, points: user.points, isAdmin: user.isAdmin } });
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
@@ -38,8 +49,40 @@ exports.login = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials.' });
     }
-    res.status(200).json({ message: 'Login successful.' });
+    const token = generateToken(user);
+    res.status(200).json({ token, user: { id: user._id, email: user.email, name: user.name, avatarUrl: user.avatarUrl, points: user.points, isAdmin: user.isAdmin } });
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+exports.getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch profile', error: err.message });
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const updates = req.body;
+    if (updates.password) delete updates.password; // Prevent password update here
+    const user = await User.findByIdAndUpdate(req.user.id, updates, { new: true, runValidators: true }).select('-password');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to update profile', error: err.message });
+  }
+};
+
+exports.checkAdmin = async (req, res) => {
+  try {
+    const isAdmin = await User.isUserAdmin(req.params.id);
+    res.json({ isAdmin });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to check admin status', error: err.message });
   }
 }; 
