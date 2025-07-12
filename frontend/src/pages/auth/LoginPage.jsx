@@ -91,7 +91,7 @@ export default function LoginPage() {
           </div>
 
           <div className="flex items-center justify-between">
-            <Link href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-500 hover:underline">
+            <Link to="/forgot-password" className="text-sm text-blue-600 hover:text-blue-500 hover:underline">
               Forgot your password?
             </Link>
           </div>
@@ -115,7 +115,7 @@ export default function LoginPage() {
           </div>
 
           <Link
-            href="/signup"
+            to="/signup"
             className="w-full flex justify-center py-3 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
           >
             Create New Account
@@ -124,7 +124,7 @@ export default function LoginPage() {
 
         <div className="text-center space-y-2">
           <p className="text-sm text-gray-600">New to our platform? Create an account to get started.</p>
-          <Link href="/admin" className="text-sm text-gray-500 hover:text-gray-700 hover:underline">
+          <Link to="/admin" className="text-sm text-gray-500 hover:text-gray-700 hover:underline">
             Admin Login →
           </Link>
         </div>
