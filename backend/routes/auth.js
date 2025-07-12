@@ -1,6 +1,7 @@
 const express = require('express');
 const authController = require('../controllers/authController');
 const jwt = require('jsonwebtoken');
+const { isAuth, isAdmin } = require('../middleware/auth');
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -24,5 +25,8 @@ router.post('/login', authController.login);
 router.get('/profile', authenticateJWT, authController.getProfile);
 router.put('/profile', authenticateJWT, authController.updateProfile);
 router.get('/users/:id/is-admin', authenticateJWT, authController.checkAdmin);
+
+// Admin route to add points to user
+router.post('/admin/add-points', isAuth, isAdmin, authController.addPointsToUser);
 
 module.exports = router; 
