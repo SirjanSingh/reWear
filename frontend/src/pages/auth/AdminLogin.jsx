@@ -1,101 +1,121 @@
 import React from "react"
 
 import { useState } from "react"
-// import Link from "next/link"
-import { Eye, EyeOff, Shield } from "lucide-react"
+import { Link } from "react-router-dom"
+import { Shield, ArrowLeft } from "lucide-react"
 
 export default function AdminLogin() {
-  const [showPassword, setShowPassword] = useState(false)
-  const [formData, setFormData] = useState({
+  const [adminForm, setAdminForm] = useState({
+    username: "",
     email: "",
     password: "",
   })
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    setFormData((prev) => ({
+    setAdminForm((prev) => ({
       ...prev,
       [name]: value,
     }))
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Handle admin login logic here
-    console.log("Admin login:", formData)
+  const handleAdminLogin = () => {
+    console.log("Admin login clicked", adminForm)
+    // Add admin login logic here
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <div className="text-center mb-8">
-            <div className="flex justify-center mb-4">
-              <div className="bg-slate-100 p-3 rounded-full">
-                <Shield className="h-8 w-8 text-slate-600" />
-              </div>
-            </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Panel Login</h1>
-            <p className="text-gray-600">Access ReWear administration</p>
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <div className="text-center">
+          <div className="mx-auto h-16 w-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+            <Shield className="h-8 w-8 text-red-600" />
+          </div>
+          <h2 className="text-3xl font-bold text-white mb-2">Admin Access</h2>
+          <p className="text-gray-300">Administrative login portal</p>
+        </div>
+
+        <form
+          className="space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleAdminLogin()
+          }}
+        >
+          <div>
+            <label htmlFor="admin-username" className="block text-sm font-medium text-gray-300 mb-1">
+              Username
+            </label>
+            <input
+              id="admin-username"
+              name="username"
+              type="text"
+              required
+              value={adminForm.username}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-600 rounded-lg shadow-sm placeholder-gray-400 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+              placeholder="Enter admin username"
+            />
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="admin-email" className="block text-sm font-medium text-gray-700 mb-2">
-                Admin Email
-              </label>
-              <input
-                id="admin-email"
-                name="email"
-                type="email"
-                required
-                value={formData.email}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
-                placeholder="Enter admin email"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="admin-password" className="block text-sm font-medium text-gray-700 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  id="admin-password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  required
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
-                  placeholder="Enter admin password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                >
-                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                </button>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-slate-600 text-white py-2 px-4 rounded-md hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 transition duration-200 font-medium"
-            >
-              Login as Admin
-            </button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <div className="border-t border-gray-200 pt-4">
-              <Link href="/login" className="text-sm text-slate-600 hover:text-slate-500 font-medium">
-                ← Back to User Login
-              </Link>
-            </div>
+          <div>
+            <label htmlFor="admin-email" className="block text-sm font-medium text-gray-300 mb-1">
+              Email
+            </label>
+            <input
+              id="admin-email"
+              name="email"
+              type="email"
+              required
+              value={adminForm.email}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-600 rounded-lg shadow-sm placeholder-gray-400 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+              placeholder="Enter admin email"
+            />
           </div>
+
+          <div>
+            <label htmlFor="admin-password" className="block text-sm font-medium text-gray-300 mb-1">
+              Password
+            </label>
+            <input
+              id="admin-password"
+              name="password"
+              type="password"
+              required
+              value={adminForm.password}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-600 rounded-lg shadow-sm placeholder-gray-400 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+              placeholder="Enter admin password"
+            />
+          </div>
+
+          <div className="flex items-center justify-between">
+            <Link to="/forgot-password" className="text-sm text-red-400 hover:text-red-300 hover:underline">
+              Forgot your password?
+            </Link>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+          >
+            Admin Login
+          </button>
+        </form>
+
+        <div className="space-y-4">
+          <Link
+            to="/login"
+            className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to User Login
+          </Link>
+        </div>
+
+        <div className="text-center">
+          <p className="text-sm text-gray-400">Restricted access for authorized personnel only.</p>
         </div>
       </div>
     </div>
