@@ -31,7 +31,7 @@ export default function ForgotPasswordPage() {
 
           <div className="space-y-4">
             <Link
-              href="/login"
+              to="/login"
               className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -89,14 +89,14 @@ export default function ForgotPasswordPage() {
         <div className="space-y-4">
           <div className="flex items-center justify-center space-x-4">
             <Link
-              href="/login"
+              to="/login"
               className="text-sm text-blue-600 hover:text-blue-500 hover:underline flex items-center gap-1"
             >
               <ArrowLeft className="h-4 w-4" />
               Back to User Login
             </Link>
             <span className="text-gray-300">|</span>
-            <Link href="/admin" className="text-sm text-gray-600 hover:text-gray-500 hover:underline">
+            <Link to="/admin" className="text-sm text-gray-600 hover:text-gray-500 hover:underline">
               Admin Login
             </Link>
           </div>

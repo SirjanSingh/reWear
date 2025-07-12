@@ -6,7 +6,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import { UserPlus, ArrowLeft } from "lucide-react"
 
-export default function SignupPage() {
+export default function SignUp() {
   const [signupForm, setSignupForm] = useState({
     fullName: "",
     username: "",
@@ -136,7 +136,7 @@ export default function SignupPage() {
 
         <div className="space-y-4">
           <Link
-            href="/login"
+            to="/login"
             className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -147,7 +147,7 @@ export default function SignupPage() {
         <div className="text-center">
           <p className="text-sm text-gray-600">
             Already have an account?{" "}
-            <Link href="/login" className="text-green-600 hover:text-green-500 hover:underline">
+            <Link to="/login" className="text-green-600 hover:text-green-500 hover:underline">
               Sign in here
             </Link>
           </p>

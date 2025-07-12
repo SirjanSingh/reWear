@@ -91,7 +91,7 @@ export default function AdminLogin() {
           </div>
 
           <div className="flex items-center justify-between">
-            <Link href="/forgot-password" className="text-sm text-red-400 hover:text-red-300 hover:underline">
+            <Link to="/forgot-password" className="text-sm text-red-400 hover:text-red-300 hover:underline">
               Forgot your password?
             </Link>
           </div>
@@ -106,7 +106,7 @@ export default function AdminLogin() {
 
         <div className="space-y-4">
           <Link
-            href="/login"
+            to="/login"
             className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
           >
             <ArrowLeft className="h-4 w-4" />
