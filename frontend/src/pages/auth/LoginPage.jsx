@@ -1,21 +1,52 @@
-import React from "react"
+"use client"
+
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { User, Shield } from "lucide-react"
 
-export default function LoginPage() {
+export default function Login() {
+  const navigate = useNavigate()
+
+  const [userForm, setUserForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+  })
+
+  const [adminForm, setAdminForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+  })
+
+  const handleUserInputChange = (e) => {
+    const { name, value } = e.target
+    setUserForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
+
+  const handleAdminInputChange = (e) => {
+    const { name, value } = e.target
+    setAdminForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
+
   const handleCreateAccount = () => {
-    // Navigate to signup page
-    console.log("Create account clicked")
-    // In a real app, you would use: navigate("/signup")
+    navigate("/signup")
   }
 
   const handleUserLogin = () => {
+    console.log("User login clicked", userForm)
     // Add user login logic here
-    console.log("User login clicked")
   }
 
   const handleAdminLogin = () => {
+    console.log("Admin login clicked", adminForm)
     // Add admin login logic here
-    console.log("Admin login clicked")
   }
 
   return (
@@ -31,9 +62,63 @@ export default function LoginPage() {
             <p className="text-gray-600">Access your personal account</p>
           </div>
 
-          <div className="space-y-4">
+          <form
+            className="space-y-4"
+            onSubmit={(e) => {
+              e.preventDefault()
+              handleUserLogin()
+            }}
+          >
+            <div>
+              <label htmlFor="user-username" className="block text-sm font-medium text-gray-700 mb-1">
+                Username
+              </label>
+              <input
+                id="user-username"
+                name="username"
+                type="text"
+                required
+                value={userForm.username}
+                onChange={handleUserInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter your username"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="user-email" className="block text-sm font-medium text-gray-700 mb-1">
+                Email
+              </label>
+              <input
+                id="user-email"
+                name="email"
+                type="email"
+                required
+                value={userForm.email}
+                onChange={handleUserInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter your email"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="user-password" className="block text-sm font-medium text-gray-700 mb-1">
+                Password
+              </label>
+              <input
+                id="user-password"
+                name="password"
+                type="password"
+                required
+                value={userForm.password}
+                onChange={handleUserInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter your password"
+              />
+            </div>
+
             <button
-              onClick={handleUserLogin}
+              type="submit"
               className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
             >
               Login
@@ -49,12 +134,13 @@ export default function LoginPage() {
             </div>
 
             <button
+              type="button"
               onClick={handleCreateAccount}
               className="w-full flex justify-center py-3 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
             >
               Create Account
             </button>
-          </div>
+          </form>
 
           <div className="text-center">
             <p className="text-sm text-gray-600">New to our platform? Create an account to get started.</p>
@@ -76,14 +162,68 @@ export default function LoginPage() {
             <p className="text-gray-300">Administrative access only</p>
           </div>
 
-          <div className="space-y-4">
+          <form
+            className="space-y-4"
+            onSubmit={(e) => {
+              e.preventDefault()
+              handleAdminLogin()
+            }}
+          >
+            <div>
+              <label htmlFor="admin-username" className="block text-sm font-medium text-gray-300 mb-1">
+                Username
+              </label>
+              <input
+                id="admin-username"
+                name="username"
+                type="text"
+                required
+                value={adminForm.username}
+                onChange={handleAdminInputChange}
+                className="w-full px-3 py-2 border border-gray-600 rounded-lg shadow-sm placeholder-gray-400 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                placeholder="Enter admin username"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="admin-email" className="block text-sm font-medium text-gray-300 mb-1">
+                Email
+              </label>
+              <input
+                id="admin-email"
+                name="email"
+                type="email"
+                required
+                value={adminForm.email}
+                onChange={handleAdminInputChange}
+                className="w-full px-3 py-2 border border-gray-600 rounded-lg shadow-sm placeholder-gray-400 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                placeholder="Enter admin email"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="admin-password" className="block text-sm font-medium text-gray-300 mb-1">
+                Password
+              </label>
+              <input
+                id="admin-password"
+                name="password"
+                type="password"
+                required
+                value={adminForm.password}
+                onChange={handleAdminInputChange}
+                className="w-full px-3 py-2 border border-gray-600 rounded-lg shadow-sm placeholder-gray-400 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                placeholder="Enter admin password"
+              />
+            </div>
+
             <button
-              onClick={handleAdminLogin}
+              type="submit"
               className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
             >
               Admin Login
             </button>
-          </div>
+          </form>
 
           <div className="text-center">
             <p className="text-sm text-gray-400">Restricted access for authorized personnel only.</p>
