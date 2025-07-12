@@ -18,6 +18,16 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
 }, { timestamps: true });
+
+// Static method to check if user is admin
+userSchema.statics.isUserAdmin = async function(userId) {
+  const user = await this.findById(userId);
+  return user ? user.isAdmin : false;
+};
 
 module.exports = mongoose.model('User', userSchema); 
