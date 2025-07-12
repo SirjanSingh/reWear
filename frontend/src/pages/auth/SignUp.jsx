@@ -6,7 +6,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import { UserPlus, ArrowLeft } from "lucide-react"
 
-export default function SignupPage() {
+export default function SignUp() {
   const [signupForm, setSignupForm] = useState({
     fullName: "",
     username: "",
