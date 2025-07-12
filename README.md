@@ -166,16 +166,6 @@ All endpoints are live and thoroughly tested. Full Swagger docs live in [`backen
 
 ---
 
-## 🖼 Screenshots & Demos
-
-*Add GIFs or images once the UI stabilises.*
-
-| Login / Sign‑up |  Landing / Home |
-| :-------------: | :-------------: |
-| *(placeholder)* | *(placeholder)* |
-
----
-
 ## Roadmap
 
 * [ ] Real‑time Socket.IO notifications.
