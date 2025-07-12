@@ -209,7 +209,6 @@ All endpoints are live and thoroughly tested. Full Swagger docs live in [`backen
 
 </details>
 
-> ✉️ **General Team Contact:** [rewear.team@gmail.com](mailto:rewear.team@gmail.com)
 
 ---
 
