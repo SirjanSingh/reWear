@@ -4,7 +4,7 @@ A **sustainable‑fashion** web platform that lets people swap their unused clot
 
 ---
 
-## Table of Contents
+## 📌 Table of Contents
 
 1. [Features](#-features)
 2. [Tech Stack](#-tech-stack)
@@ -19,9 +19,9 @@ A **sustainable‑fashion** web platform that lets people swap their unused clot
 
 ---
 
-## Features
+## 🌟 Features
 
-### Completed
+### ✅ Completed
 
 * **Full‑stack Authentication** — email/password sign‑up & login, JWT sessions, role‑based guards (User & Admin).
 * **Robust REST API** — every core endpoint for items, swaps, points, and admin operations is live (see API Reference below).
@@ -41,13 +41,13 @@ A **sustainable‑fashion** web platform that lets people swap their unused clot
   * **Admin** — item moderation, user management, flag reports, manual points grants.
 * **Integrations** — Cloudinary image hosting, Mailgun password‑reset emails, rate‑limited public API gateway.
 
-### In Progress
+### 🏗 In Progress
 
 Real‑time notifications (Socket.IO), review system post‑swap, in‑app chat, PWA offline support.
 
 ---
 
-## Tech Stack
+## 🛠 Tech Stack
 
 | Layer         | Tech                                                                                     |
 | ------------- | ---------------------------------------------------------------------------------------- |
@@ -57,7 +57,7 @@ Real‑time notifications (Socket.IO), review system post‑swap, in‑app chat,
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
@@ -88,7 +88,7 @@ Then open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
-## Environment Variables
+## 🔧 Environment Variables
 
 ### `frontend/.env`
 
@@ -111,7 +111,7 @@ CLOUDINARY_API_SECRET=<secret>
 
 ---
 
-## API Reference
+## 🗂 API Reference
 
 All endpoints are live and thoroughly tested. Full Swagger docs live in [`backend/API_Documentation.md`](backend/API_Documentation.md).
 
@@ -166,7 +166,7 @@ All endpoints are live and thoroughly tested. Full Swagger docs live in [`backen
 
 ---
 
-## Screenshots & Demos
+## 🖼 Screenshots & Demos
 
 *Add GIFs or images once the UI stabilises.*
 
@@ -176,7 +176,7 @@ All endpoints are live and thoroughly tested. Full Swagger docs live in [`backen
 
 ---
 
-## Roadmap
+## 🎯 Roadmap
 
 * [ ] Real‑time Socket.IO notifications.
 * [ ] Review & rating system post‑swap.
@@ -185,7 +185,7 @@ All endpoints are live and thoroughly tested. Full Swagger docs live in [`backen
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
 1. **Fork** & create a branch:  `git checkout -b feature/awesome`
 2. **Commit** using conventional commits.
@@ -195,20 +195,27 @@ All endpoints are live and thoroughly tested. Full Swagger docs live in [`backen
 
 ---
 
-## Team
+## 👥 Team
 
-| Role      | Members         |
-| --------- | --------------- |
-| Front‑end | Sirjan · Kartik |
-| Back‑end  | Param · Ali     |
-| UI/UX     | Kartik · Sirjan |
+<details>
+<summary><strong>📬 Team Contacts</strong></summary>
+
+| Role      | Member | Email                                                             |
+| --------- | ------ | ----------------------------------------------------------------- |
+| Front‑end | Kartik | [kartikawasthi2022@gmail.com](mailto:kartikawasthi2022@gmail.com) |
+| Back‑end  | Param  | [paramveer5404@gmail.com](mailto:paramveer5404@gmail.com)         |
+| Back‑end  | Ali    | [lycanalan@gmail.com](mailto:lycanalan@gmail.com)                 |
+| UI/UX     | Sirjan | [sirjan.singh036@gmail.com](mailto:sirjan.singh036@gmail.com)     |
+
+</details>
+
 
 ---
 
-## License
+## 📄 License
 
 Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for details.
 
 ---
 
-> Made with by the ReWear Community – *reduce, reuse, **re‑wear***!
+> Made with ♥ by the ReWear Community – *reduce, reuse, **re‑wear***!
