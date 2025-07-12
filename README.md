@@ -202,12 +202,14 @@ All endpoints are live and thoroughly tested. Full Swagger docs live in [`backen
 
 | Role      | Member | Email                                                             |
 | --------- | ------ | ----------------------------------------------------------------- |
+| Front‑end | Sirjan | [sirjan.singh036@gmail.com](mailto:sirjan.singh036@gmail.com)     |
 | Front‑end | Kartik | [kartikawasthi2022@gmail.com](mailto:kartikawasthi2022@gmail.com) |
 | Back‑end  | Param  | [paramveer5404@gmail.com](mailto:paramveer5404@gmail.com)         |
 | Back‑end  | Ali    | [lycanalan@gmail.com](mailto:lycanalan@gmail.com)                 |
 
 </details>
 
+> ✉️ **General Team Contact:** [rewear.team@gmail.com](mailto:rewear.team@gmail.com)
 
 ---
 
