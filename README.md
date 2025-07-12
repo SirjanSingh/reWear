@@ -1,247 +1,128 @@
 # ReWear - Community Clothing Exchange
 
-ReWear is a sustainable fashion platform that enables users to exchange unused clothing through direct swaps or a point-based redemption system. Our mission is to reduce textile waste by creating a vibrant community of conscious consumers who choose to reuse rather than discard wearable garments.
+A sustainable fashion platform enabling users to exchange unused clothing through direct swaps or a point-based redemption system.
 
-## 🌟 Features
+## 🌟 Current Features
 
-### User Authentication
-- Secure email/password signup and login
+### Authentication
+- Email/password signup and login
 - JWT-based authentication
-- Protected routes for authenticated users
-- Role-based access control (User/Admin)
+- Protected routes
+- Role-based access (User/Admin)
 
 ### Landing Page
-- Modern, responsive design with featured items carousel
-- Quick action buttons: "Start Swapping", "Browse Items", "List an Item"
-- Dynamic item grid with search and filtering capabilities
-- Real-time item availability updates
-
-### User Dashboard
-- Personal profile management
-- Points balance tracking
-- Uploaded items overview
-- Swap request management
-- Transaction history
+- Featured items carousel
+- Quick actions: "Start Swapping", "Browse Items", "List an Item"
+- Dynamic item grid with search and filters
 
 ### Item Management
 - Multi-image upload with preview
-- Detailed item information:
-  - Title and description
-  - Category and type (dynamic relationship)
-  - Size and condition
-  - Searchable tags
+- Detailed item information
 - Swap request system
 - Points-based redemption
 
-### Admin Panel
-- Item listing moderation
-- User management
-- Content moderation tools
-- Analytics dashboard
+## 🛠 Tech Stack
 
-## 🛠 Technical Implementation
+### Frontend
+- React with Vite
+- TailwindCSS for styling
+- Context API for state management
+- React Router for navigation
 
-### Database Design (35%)
-- **Schema Design**
-  - User Model
-    - Authentication details
-    - Profile information
-    - Points balance
-    - Relationship mappings for items and swaps
-  - Item Model
-    - Detailed item attributes
-    - Image storage
-    - Status tracking
-    - Owner relationships
-  - SwapRequest Model
-    - Request tracking
-    - Item relationships
-    - Status management
-  - PointRedemption Model
-    - Transaction records
-    - Point calculations
-    - Status tracking
-
-- **Real-time Features**
-  - WebSocket integration for live updates
-  - Real-time swap request notifications
-  - Live item availability updates
-  - Instant messaging between users
-
-### Coding Standards (40%)
-
-#### Data Validation
-- Frontend validation using form schemas
-- Backend validation middleware
-- Image upload restrictions
-- Input sanitization
-
-#### Dynamic Values
-- Environment-based configuration
-- Constants management
-- Dynamic form fields
-- Responsive UI breakpoints
-
-#### Code Reusability
-- Shared components:
-  - Button
-  - Input
-  - Select
-  - Modal
-  - Image Gallery
-  - Loading Spinner
-- Custom hooks for common logic
-- Utility functions
-- Context providers for state management
-
-#### Performance Optimization
-- Lazy loading for images
-- Code splitting
-- Caching strategies
-- Optimized database queries
-- Debounced search
-- Infinite scrolling
-
-#### Error Handling
-- Global error boundary
-- Form validation feedback
-- API error handling
-- Fallback UI components
-- User-friendly error messages
-
-#### Code Quality
-- ESLint configuration
-- Prettier formatting
-- TypeScript type checking
-- Git hooks for pre-commit checks
-- Modular architecture
-
-### UI/UX Design (15%)
-
-#### Responsive Design
-- Mobile-first approach
-- Fluid layouts
-- Breakpoint optimization
-- Touch-friendly interfaces
-
-#### Navigation
-- Breadcrumb navigation
-- Pagination controls
-- Search functionality
-- Advanced filtering
-- Category navigation
-
-#### Visual Design
-- Consistent color scheme
-- Typography hierarchy
-- Accessible contrast ratios
-- Loading states
-- Micro-interactions
+### Backend
+- Node.js with Express
+- JWT for authentication
+- MongoDB for data storage
+- RESTful API design
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 - Node.js (v18 or higher)
 - npm or yarn
-- MongoDB (if using local database)
+- MongoDB
 
-### Installation
+### Quick Start
 
-1. Clone the repository
+1. Clone and Install
 ```bash
-git clone https://github.com/your-username/rewear.git
+# Clone repository
+git clone https://github.com/SirjanSingh/rewear.git
 cd rewear
+
+# Install dependencies
+cd frontend && npm install
+cd ../backend && npm install
 ```
 
-2. Install dependencies
+2. Set up environment variables
 ```bash
-# Install frontend dependencies
-cd frontend
-npm install
-
-# Install backend dependencies
-cd ../backend
-npm install
-```
-
-3. Environment Setup
-```bash
-# Frontend
-cp frontend/.env.example frontend/.env
-
-# Backend
-cp backend/.env.example backend/.env
-```
-
-4. Start Development Servers
-```bash
-# Frontend
-cd frontend
-npm run dev
-
-# Backend
-cd ../backend
-npm run dev
-```
-
-### Environment Variables
-
-#### Frontend
-```env
+# Frontend (.env)
 VITE_API_URL=http://localhost:3000
-VITE_WS_URL=ws://localhost:3000
-```
 
-#### Backend
-```env
+# Backend (.env)
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/rewear
 JWT_SECRET=your-secret-key
 ```
 
+3. Start Development
+```bash
+# Terminal 1 - Frontend
+cd frontend
+npm run dev
+
+# Terminal 2 - Backend
+cd backend
+npm run dev
+```
 ## 📝 API Documentation
 
-Detailed API documentation is available in the [API.md](API.md) file, including:
+Detailed API documentation is available in the [API.md](https://github.com/SirjanSingh/reWear/blob/main/backend/API_Documentation.md) file, including:
 - Authentication endpoints
 - Item management
 - Swap operations
 - Points system
 - Admin functions
+## 📝 API Endpoints
 
-## 🧪 Testing
-
-```bash
-# Run frontend tests
-cd frontend
-npm test
-
-# Run backend tests
-cd backend
-npm test
+### Authentication
+```
+POST /api/auth/register - Register new user
+POST /api/auth/login - User login
+GET /api/auth/profile - Get user profile (protected)
 ```
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Items
+```
+GET /api/items - Get all items
+POST /api/items - Create new item (protected)
+GET /api/items/:id - Get single item
+PUT /api/items/:id - Update item (protected)
+```
 
 ## 👥 Team
 
-- [Team Member 1] - Frontend Development
-- [Team Member 2] - Backend Development
-- [Team Member 3] - UI/UX Design
-- [Team Member 4] - Testing & Documentation
+- Frontend Development: [Sirjan, Kartik]
+- Backend Development: [Param , Ali]
+- UI/UX Design: [Kartik, Sirjan]
 
-## 🙏 Acknowledgments
+## 📱 Screenshots
 
-- [Tailwind CSS](https://tailwindcss.com/) for styling
-- [Vite](https://vitejs.dev/) for frontend tooling
-- [Express](https://expressjs.com/) for backend API
-- [MongoDB](https://www.mongodb.com/) for database
+[Add screenshots of key features when available]
+
+## 🔄 Current Status
+
+The project is in active development with a focus on:
+- Implementing user authentication
+- Connecting frontend to backend services
+- Setting up the item listing functionality
+- Developing the swap request system
+
+## 🎯 Next Steps
+
+1. Complete backend authentication integration
+2. Implement real-time updates for item availability
+3. Add image upload functionality
+4. Develop the points system
+5. Create admin dashboard
