@@ -205,7 +205,6 @@ All endpoints are live and thoroughly tested. Full Swagger docs live in [`backen
 | Front‑end | Kartik | [kartikawasthi2022@gmail.com](mailto:kartikawasthi2022@gmail.com) |
 | Back‑end  | Param  | [paramveer5404@gmail.com](mailto:paramveer5404@gmail.com)         |
 | Back‑end  | Ali    | [lycanalan@gmail.com](mailto:lycanalan@gmail.com)                 |
-| UI/UX     | Sirjan | [sirjan.singh036@gmail.com](mailto:sirjan.singh036@gmail.com)     |
 
 </details>
 
