@@ -1,7 +1,7 @@
 import React from "react"
 
 import { useState } from "react"
-import Link from "next/link"
+// import Link from "next/link"
 import { Eye, EyeOff } from "lucide-react"
 
 export default function UserLogin() {
@@ -87,14 +87,11 @@ export default function UserLogin() {
           <div className="mt-6 text-center space-y-3">
             <p className="text-sm text-gray-600">
               Don't have an account?{" "}
-              <Link href="/signup" className="text-blue-600 hover:text-blue-500 font-medium">
-                Sign up
-              </Link>
+              <button onClick={() => navigate("/signup")}>Sign up</button>
             </p>
             <div className="border-t border-gray-200 pt-3">
-              <Link href="/admin-login" className="text-sm text-gray-500 hover:text-gray-700 font-medium">
-                Login as Admin
-              </Link>
+          
+              <button onClick={() => navigate("/admin")}>AdminLogin</button>
             </div>
           </div>
         </div>

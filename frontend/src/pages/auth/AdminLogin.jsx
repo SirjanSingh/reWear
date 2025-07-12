@@ -1,7 +1,7 @@
 import React from "react"
 
 import { useState } from "react"
-import Link from "next/link"
+// import Link from "next/link"
 import { Eye, EyeOff, Shield } from "lucide-react"
 
 export default function AdminLogin() {
