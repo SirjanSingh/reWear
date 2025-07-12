@@ -1,0 +1,331 @@
+{
+	"info": {
+		"_postman_id": "transaction-test-collection",
+		"name": "reWear Transactions",
+		"description": "Collection for testing swap requests and point redemptions",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Admin Operations",
+			"item": [
+				{
+					"name": "Add Points to User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminAuthToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": \"{{targetUserId}}\",\n    \"points\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/admin/add-points",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "admin", "add-points"]
+						},
+						"description": "Add points to a user's account (admin only)"
+					}
+				}
+			]
+		},
+		{
+			"name": "Swap Requests",
+			"item": [
+				{
+					"name": "Create Swap Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"requestedItemId\": \"{{requestedItemId}}\",\n    \"offeredItemId\": \"{{offeredItemId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/swaps/request",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "swaps", "request"]
+						},
+						"description": "Create a new swap request between two items"
+					}
+				},
+				{
+					"name": "Get User's Swap Requests",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/swaps",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "swaps"]
+						},
+						"description": "Get all swap requests for the logged-in user"
+					}
+				},
+				{
+					"name": "Update Swap Status - Accept",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"Accepted\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/swaps/{{swapRequestId}}/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "swaps", "{{swapRequestId}}", "status"]
+						},
+						"description": "Accept a swap request"
+					}
+				},
+				{
+					"name": "Update Swap Status - Complete",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"Completed\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/swaps/{{swapRequestId}}/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "swaps", "{{swapRequestId}}", "status"]
+						},
+						"description": "Complete a swap request"
+					}
+				},
+				{
+					"name": "Update Swap Status - Decline",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"Declined\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/swaps/{{swapRequestId}}/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "swaps", "{{swapRequestId}}", "status"]
+						},
+						"description": "Decline a swap request"
+					}
+				}
+			]
+		},
+		{
+			"name": "Point Redemptions",
+			"item": [
+				{
+					"name": "Create Point Redemption",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"itemId\": \"{{itemId}}\",\n    \"pointsToUse\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/redeem",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "redeem"]
+						},
+						"description": "Create a new point redemption request"
+					}
+				},
+				{
+					"name": "Get Redemption History",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/redeem",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "redeem"]
+						},
+						"description": "Get redemption history for the logged-in user"
+					}
+				},
+				{
+					"name": "Update Redemption Status (Admin)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"Completed\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/redeem/{{redemptionId}}/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "redeem", "{{redemptionId}}", "status"]
+						},
+						"description": "Update redemption status (admin only)"
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "your_auth_token_here",
+			"type": "string"
+		},
+		{
+			"key": "adminAuthToken",
+			"value": "admin_auth_token_here",
+			"type": "string"
+		},
+		{
+			"key": "targetUserId",
+			"value": "user_id_here",
+			"type": "string"
+		},
+		{
+			"key": "requestedItemId",
+			"value": "item_id_here",
+			"type": "string"
+		},
+		{
+			"key": "offeredItemId",
+			"value": "item_id_here",
+			"type": "string"
+		},
+		{
+			"key": "swapRequestId",
+			"value": "swap_request_id_here",
+			"type": "string"
+		},
+		{
+			"key": "itemId",
+			"value": "item_id_here",
+			"type": "string"
+		},
+		{
+			"key": "redemptionId",
+			"value": "redemption_id_here",
+			"type": "string"
+		}
+	]
+} 

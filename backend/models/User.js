@@ -22,6 +22,18 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  points: { 
+    type: Number, 
+    default: 0 
+  },
+  swapHistory: [{ 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'SwapRequest' 
+  }],
+  redemptionHistory: [{ 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'PointRedemption' 
+  }]
 }, { timestamps: true });
 
 // Static method to check if user is admin

@@ -5,6 +5,8 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
 const itemRoutes = require('./routes/item_routes');
+const swapRoutes = require('./routes/swap_routes');
+const redemptionRoutes = require('./routes/redemption_routes');
 
 const app = express();
 app.use(cors());
@@ -24,6 +26,8 @@ app.get('/api/test', (req, res) => {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/items', itemRoutes);
+app.use('/api/swaps', swapRoutes);
+app.use('/api/redeem', redemptionRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;

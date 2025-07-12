@@ -87,4 +87,36 @@ exports.checkAdmin = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: 'Failed to check admin status', error: err.message });
   }
+};
+
+// Add points to user (admin only)
+exports.addPointsToUser = async (req, res) => {
+    try {
+        const { userId, points } = req.body;
+
+        if (!userId || !points || points <= 0) {
+            return res.status(400).json({ message: 'User ID and positive points value are required.' });
+        }
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        // Add points to user's balance
+        user.points += points;
+        await user.save();
+
+        res.status(200).json({
+            message: 'Points added successfully',
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                points: user.points
+            }
+        });
+    } catch (err) {
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
 }; 
