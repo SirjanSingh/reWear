@@ -1,38 +1,41 @@
 import React from "react"
-
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { User } from "lucide-react"
 import axios from "axios"
 
 export default function LoginPage() {
-  const [userForm, setUserForm] = useState({
-    username: "",
+  const [loginForm, setLoginForm] = useState({
     email: "",
     password: "",
-  })
+  });
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setUserForm((prev) => ({
+    const { name, value } = e.target;
+    setLoginForm((prev) => ({
       ...prev,
       [name]: value,
-    }))
+    }));
+    setError(""); // Clear error when user types
   }
 
-  const handleUserLogin = async () => {
+  const handleLogin = async () => {
     try {
       const response = await axios.post("http://localhost:5000/api/auth/login", {
-        email: userForm.email,
-        password: userForm.password,
-      })
-      if(response.data){
+        email: loginForm.email,
+        password: loginForm.password,
+      });
+
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         navigate('/');
       }
     } catch (error) {
-      console.error("Login failed:", error.response ? error.response.data : error.message)
-      // Optionally show error to user
+      setError(error.response?.data?.message || "Login failed. Please check your credentials.");
+      console.error("Login failed:", error.response?.data || error.message);
     }
   }
 
@@ -47,29 +50,19 @@ export default function LoginPage() {
           <p className="text-gray-600">Sign in to your account</p>
         </div>
 
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
+            {error}
+          </div>
+        )}
+
         <form
           className="space-y-4"
           onSubmit={(e) => {
             e.preventDefault()
-            handleUserLogin()
+            handleLogin()
           }}
         >
-          <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
-              Username
-            </label>
-            <input
-              id="username"
-              name="username"
-              type="text"
-              required
-              value={userForm.username}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Enter your username"
-            />
-          </div>
-
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
               Email
@@ -79,7 +72,7 @@ export default function LoginPage() {
               name="email"
               type="email"
               required
-              value={userForm.email}
+              value={loginForm.email}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Enter your email"
@@ -95,7 +88,7 @@ export default function LoginPage() {
               name="password"
               type="password"
               required
-              value={userForm.password}
+              value={loginForm.password}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Enter your password"
@@ -134,8 +127,13 @@ export default function LoginPage() {
           </Link>
         </div>
 
-        <div className="text-center space-y-2">
-          <p className="text-sm text-gray-600">New to our platform? Create an account to get started.</p>
+        <div className="text-center">
+          <p className="text-sm text-gray-600">
+            New to our platform?{" "}
+            <Link to="/signup" className="text-blue-600 hover:text-blue-500 hover:underline">
+              Create an account
+            </Link>
+          </p>
           <Link to="/admin" className="text-sm text-gray-500 hover:text-gray-700 hover:underline">
             Admin Login →
           </Link>

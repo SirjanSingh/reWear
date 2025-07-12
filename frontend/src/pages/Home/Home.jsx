@@ -135,7 +135,7 @@ export default function HomePage() {
                   Browse Items
                 </button>
                 <button 
-                  onClick={() => navigate('/add-item')}
+                  onClick={() => navigate('/list-item')}
                   className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 shadow-sm hover:shadow-md">
                   List an Item
                 </button>

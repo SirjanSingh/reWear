@@ -1,9 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Upload } from 'lucide-react';
+import { Link, Image } from 'lucide-react';
+import { itemService } from '../../services/itemService';
 
 export default function ListItem() {
   const navigate = useNavigate();
+  
+  // Check authentication on component mount
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -12,10 +22,11 @@ export default function ListItem() {
     size: '',
     condition: 'New', // default value
     tags: '',
-    images: [],
+    imageUrl: '', // Changed from images array to single imageUrl
+    points: 50, // default value
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [previewUrls, setPreviewUrls] = useState([]);
+  const [error, setError] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -23,59 +34,40 @@ export default function ListItem() {
       ...prev,
       [name]: value
     }));
-  };
-
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    const newPreviewUrls = files.map(file => URL.createObjectURL(file));
-    
-    setPreviewUrls(prev => [...prev, ...newPreviewUrls]);
-    setFormData(prev => ({
-      ...prev,
-      images: [...prev.images, ...files]
-    }));
+    setError(''); // Clear error when user types
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError('');
 
     try {
-      // Create FormData for multipart/form-data
-      const formDataToSend = new FormData();
-      formDataToSend.append('title', formData.title);
-      formDataToSend.append('description', formData.description);
-      formDataToSend.append('category', formData.category);
-      formDataToSend.append('type', formData.type);
-      formDataToSend.append('size', formData.size);
-      formDataToSend.append('condition', formData.condition);
-      
-      // Convert comma-separated tags to array
-      const tags = formData.tags.split(',').map(tag => tag.trim());
-      formDataToSend.append('tags', JSON.stringify(tags));
-
-      // Append each image
-      formData.images.forEach((image, index) => {
-        formDataToSend.append('images', image);
-      });
-
-      const response = await fetch('/api/items', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: formDataToSend,
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create item');
+      // Validate image URL
+      if (!formData.imageUrl) {
+        throw new Error('Please provide an image URL');
       }
 
-      // Navigate to home page or item details page
-      navigate('/');
+      // Convert comma-separated tags to array
+      const tags = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+
+      const itemData = {
+        title: formData.title,
+        description: formData.description,
+        category: formData.category,
+        type: formData.type,
+        size: formData.size,
+        condition: formData.condition,
+        tags,
+        images: [formData.imageUrl], // Backend expects an array of images
+        points: parseInt(formData.points, 10), // Convert points to number
+      };
+
+      await itemService.createItem(itemData);
+      navigate('/browse-items');
     } catch (error) {
+      setError(error.message || 'Failed to create item. Please try again.');
       console.error('Error creating item:', error);
-      // Handle error (show error message to user)
     } finally {
       setIsSubmitting(false);
     }
@@ -87,6 +79,12 @@ export default function ListItem() {
         <div className="max-w-2xl mx-auto">
           <h1 className="text-3xl font-bold text-slate-900 mb-8">List an Item</h1>
           
+          {error && (
+            <div className="mb-6 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
+              {error}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Title */}
             <div>
@@ -138,6 +136,7 @@ export default function ListItem() {
                   <option value="Men">Men</option>
                   <option value="Women">Women</option>
                   <option value="Kids">Kids</option>
+                  <option value="Unisex">Unisex</option>
                 </select>
               </div>
               <div>
@@ -195,6 +194,27 @@ export default function ListItem() {
               </div>
             </div>
 
+            {/* Points */}
+            <div>
+              <label htmlFor="points" className="block text-sm font-medium text-slate-700 mb-2">
+                Points Required *
+              </label>
+              <input
+                type="number"
+                id="points"
+                name="points"
+                required
+                min="1"
+                value={formData.points}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                placeholder="e.g., 50"
+              />
+              <p className="mt-1 text-sm text-slate-500">
+                Points required for other users to swap this item (minimum 1 point)
+              </p>
+            </div>
+
             {/* Tags */}
             <div>
               <label htmlFor="tags" className="block text-sm font-medium text-slate-700 mb-2">
@@ -211,59 +231,49 @@ export default function ListItem() {
               />
             </div>
 
-            {/* Image Upload */}
+            {/* Image URL Input */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Images
+              <label htmlFor="imageUrl" className="block text-sm font-medium text-slate-700 mb-2">
+                Image URL *
               </label>
-              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-lg hover:border-emerald-500 transition-colors duration-200">
-                <div className="space-y-1 text-center">
-                  <Upload className="mx-auto h-12 w-12 text-slate-400" />
-                  <div className="flex text-sm text-slate-600">
-                    <label htmlFor="images" className="relative cursor-pointer bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-emerald-500">
-                      <span>Upload images</span>
-                      <input
-                        id="images"
-                        name="images"
-                        type="file"
-                        multiple
-                        accept="image/*"
-                        className="sr-only"
-                        onChange={handleImageChange}
-                      />
-                    </label>
-                    <p className="pl-1">or drag and drop</p>
-                  </div>
-                  <p className="text-xs text-slate-500">PNG, JPG, GIF up to 10MB</p>
-                </div>
+              <div className="mt-1">
+                <input
+                  type="url"
+                  id="imageUrl"
+                  name="imageUrl"
+                  required
+                  value={formData.imageUrl}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  placeholder="Enter the URL of your item's image"
+                />
               </div>
-
-              {/* Image Previews */}
-              {previewUrls.length > 0 && (
-                <div className="mt-4 grid grid-cols-3 gap-4">
-                  {previewUrls.map((url, index) => (
-                    <div key={index} className="relative">
-                      <img
-                        src={url}
-                        alt={`Preview ${index + 1}`}
-                        className="h-24 w-full object-cover rounded-lg"
-                      />
-                    </div>
-                  ))}
+              {formData.imageUrl && (
+                <div className="mt-4">
+                  <p className="text-sm text-slate-600 mb-2">Image Preview:</p>
+                  <img
+                    src={formData.imageUrl}
+                    alt="Item preview"
+                    className="w-full max-w-md rounded-lg shadow-sm"
+                    onError={(e) => {
+                      e.target.src = 'https://via.placeholder.com/400x400?text=Invalid+Image+URL';
+                      setError('Invalid image URL. Please provide a valid image URL.');
+                    }}
+                  />
                 </div>
               )}
             </div>
 
             {/* Submit Button */}
-            <div className="flex justify-end">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? 'Listing Item...' : 'List Item'}
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors duration-200 ${
+                isSubmitting ? 'opacity-75 cursor-not-allowed' : ''
+              }`}
+            >
+              {isSubmitting ? 'Creating...' : 'Create Listing'}
+            </button>
           </form>
         </div>
       </div>

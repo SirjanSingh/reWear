@@ -9,37 +9,47 @@ import { useNavigate } from "react-router-dom"
 
 export default function SignUp() {
   const [signupForm, setSignupForm] = useState({
-    fullName: "",
-    username: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
-  })
+  });
 
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setSignupForm((prev) => ({
       ...prev,
       [name]: value,
-    }))
+    }));
+    setError(""); // Clear error when user types
   }
 
   const handleSignup = async () => {
     try {
+      if (signupForm.password !== signupForm.confirmPassword) {
+        setError("Passwords do not match");
+        return;
+      }
+
       const response = await axios.post("http://localhost:5000/api/auth/register", {
-        name: signupForm.fullName,
+        name: signupForm.name,
         email: signupForm.email,
         password: signupForm.password,
-        confirmPassword: signupForm.confirmPassword,
-      })
-      console.log("Signup success:", response.data)
-      if(response.data){
+      });
+
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        navigate('/');
+      } else {
         navigate('/login');
       }
     } catch (error) {
-      console.error("Signup failed:", error.response ? error.response.data : error.message)
+      setError(error.response?.data?.message || "Registration failed. Please try again.");
+      console.error("Signup failed:", error.response?.data || error.message);
     }
   }
 
@@ -54,6 +64,12 @@ export default function SignUp() {
           <p className="text-gray-600">Join us today and get started</p>
         </div>
 
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
+            {error}
+          </div>
+        )}
+
         <form
           className="space-y-4"
           onSubmit={(e) => {
@@ -62,34 +78,18 @@ export default function SignUp() {
           }}
         >
           <div>
-            <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
-              Full Name
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              Name
             </label>
             <input
-              id="fullName"
-              name="fullName"
+              id="name"
+              name="name"
               type="text"
               required
-              value={signupForm.fullName}
+              value={signupForm.name}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-              placeholder="Enter your full name"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
-              Username
-            </label>
-            <input
-              id="username"
-              name="username"
-              type="text"
-              required
-              value={signupForm.username}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-              placeholder="Choose a username"
+              placeholder="Enter your name"
             />
           </div>
 
@@ -148,16 +148,6 @@ export default function SignUp() {
             Create Account
           </button>
         </form>
-
-        <div className="space-y-4">
-          <Link
-            to="/login"
-            className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Login
-          </Link>
-        </div>
 
         <div className="text-center">
           <p className="text-sm text-gray-600">
