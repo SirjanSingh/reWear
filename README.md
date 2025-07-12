@@ -2,6 +2,7 @@
 
 A **sustainable‑fashion** web platform that lets people swap their unused clothes either **directly** or through a **points‑based marketplace**. ReWear extends the life‑cycle of garments, keeps textile waste out of landfills, and builds a style‑sharing community.
 
+🎥 Demo Video: Watch the full walkthrough ([Video Link](https://drive.google.com/drive/u/1/folders/18NikI8IwpQ0YrAMR4pG2nzHgFMCKFx7I))
 ---
 
 ## Table of Contents
