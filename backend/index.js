@@ -4,6 +4,9 @@ const cors = require('cors');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
+const itemRoutes = require('./routes/item_routes');
+const swapRoutes = require('./routes/swap_routes');
+const redemptionRoutes = require('./routes/redemption_routes');
 
 const app = express();
 app.use(cors());
@@ -11,10 +14,7 @@ app.use(express.json());
 
 // MongoDB connection
 const MONGO_URI = process.env.MONGO_URI;
-mongoose.connect(MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
@@ -23,7 +23,11 @@ app.get('/api/test', (req, res) => {
   res.json({ message: 'API is working!' });
 });
 
+// Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/items', itemRoutes);
+app.use('/api/swaps', swapRoutes);
+app.use('/api/redeem', redemptionRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;

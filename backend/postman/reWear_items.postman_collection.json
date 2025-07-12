@@ -1,0 +1,263 @@
+{
+	"info": {
+		"_postman_id": "b2a5e7d8-f3c9-4e12-b8d9-1234567890ab",
+		"name": "reWear Items API",
+		"description": "Collection for testing reWear Items API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000/api"
+		},
+		{
+			"key": "authToken",
+			"value": "your_auth_token_here"
+		},
+		{
+			"key": "adminToken",
+			"value": "your_admin_token_here"
+		},
+		{
+			"key": "itemId",
+			"value": "item_id_after_creation"
+		}
+	],
+	"item": [
+		{
+			"name": "Public Routes",
+			"item": [
+				{
+					"name": "Get All Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/items?page=1&limit=10&category=Men&size=M&sortBy=createdAt&order=desc",
+							"host": ["{{baseUrl}}"],
+							"path": ["items"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "search",
+									"value": "blue jacket",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "Men"
+								},
+								{
+									"key": "size",
+									"value": "M"
+								},
+								{
+									"key": "tags",
+									"value": "winter",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "createdAt"
+								},
+								{
+									"key": "order",
+									"value": "desc"
+								},
+								{
+									"key": "featured",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all approved items with optional filters"
+					}
+				},
+				{
+					"name": "Get Item by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/items/{{itemId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["items", "{{itemId}}"]
+						},
+						"description": "Get a specific item by its ID"
+					}
+				}
+			]
+		},
+		{
+			"name": "User Routes",
+			"item": [
+				{
+					"name": "Create Item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set(\"itemId\", jsonData._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Blue Denim Jacket\",\n    \"description\": \"Like new, barely worn\",\n    \"category\": \"Men\",\n    \"type\": \"Jacket\",\n    \"size\": \"M\",\n    \"condition\": \"Gently Used\",\n    \"tags\": [\"denim\", \"jacket\", \"winter\"],\n    \"images\": [\"http://example.com/image1.jpg\", \"http://example.com/image2.jpg\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/items",
+							"host": ["{{baseUrl}}"],
+							"path": ["items"]
+						},
+						"description": "Create a new item listing"
+					}
+				},
+				{
+					"name": "Update Item",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Updated Blue Denim Jacket\",\n    \"description\": \"Like new, worn once\",\n    \"size\": \"L\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/items/{{itemId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["items", "{{itemId}}"]
+						},
+						"description": "Update an existing item (owner only)"
+					}
+				},
+				{
+					"name": "Delete Item",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/items/{{itemId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["items", "{{itemId}}"]
+						},
+						"description": "Delete an item (owner or admin only)"
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin Routes",
+			"item": [
+				{
+					"name": "Get Pending Items",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/items/admin/pending",
+							"host": ["{{baseUrl}}"],
+							"path": ["items", "admin", "pending"]
+						},
+						"description": "Get all items pending approval"
+					}
+				},
+				{
+					"name": "Approve/Reject Item",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"approved\": true,\n    \"featured\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/items/admin/{{itemId}}/approve",
+							"host": ["{{baseUrl}}"],
+							"path": ["items", "admin", "{{itemId}}", "approve"]
+						},
+						"description": "Approve or reject an item"
+					}
+				},
+				{
+					"name": "Toggle Featured Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/items/admin/{{itemId}}/feature",
+							"host": ["{{baseUrl}}"],
+							"path": ["items", "admin", "{{itemId}}", "feature"]
+						},
+						"description": "Toggle featured status of an item"
+					}
+				}
+			]
+		}
+	]
+} 
