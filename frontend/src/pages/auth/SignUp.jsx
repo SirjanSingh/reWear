@@ -1,10 +1,11 @@
-"use client"
 
 import React from "react"
 
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { UserPlus, ArrowLeft } from "lucide-react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 export default function SignUp() {
   const [signupForm, setSignupForm] = useState({
@@ -15,6 +16,8 @@ export default function SignUp() {
     confirmPassword: "",
   })
 
+  const navigate = useNavigate();
+
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setSignupForm((prev) => ({
@@ -23,9 +26,21 @@ export default function SignUp() {
     }))
   }
 
-  const handleSignup = () => {
-    console.log("Signup clicked", signupForm)
-    // Add signup logic here
+  const handleSignup = async () => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/auth/register", {
+        name: signupForm.fullName,
+        email: signupForm.email,
+        password: signupForm.password,
+        confirmPassword: signupForm.confirmPassword,
+      })
+      console.log("Signup success:", response.data)
+      if(response.data){
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error("Signup failed:", error.response ? error.response.data : error.message)
+    }
   }
 
   return (

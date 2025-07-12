@@ -1,8 +1,9 @@
 import React from "react"
 
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { User } from "lucide-react"
+import axios from "axios"
 
 export default function LoginPage() {
   const [userForm, setUserForm] = useState({
@@ -10,6 +11,7 @@ export default function LoginPage() {
     email: "",
     password: "",
   })
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -19,9 +21,19 @@ export default function LoginPage() {
     }))
   }
 
-  const handleUserLogin = () => {
-    console.log("User login clicked", userForm)
-    // Add user login logic here
+  const handleUserLogin = async () => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/auth/login", {
+        email: userForm.email,
+        password: userForm.password,
+      })
+      if(response.data){
+        navigate('/');
+      }
+    } catch (error) {
+      console.error("Login failed:", error.response ? error.response.data : error.message)
+      // Optionally show error to user
+    }
   }
 
   return (

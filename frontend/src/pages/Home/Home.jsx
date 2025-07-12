@@ -134,11 +134,11 @@ export default function HomePage() {
                   className="border-2 border-slate-300 hover:border-emerald-600 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 shadow-sm hover:shadow-md">
                   Browse Items
                 </button>
-                              <button 
-                onClick={() => navigate('/list-item')}
-                className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 shadow-sm hover:shadow-md">
-                List an Item
-              </button>
+                <button 
+                  onClick={() => navigate('/add-item')}
+                  className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 shadow-sm hover:shadow-md">
+                  List an Item
+                </button>
               </div>
 
               {/* Stats */}
